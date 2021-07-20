@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Flames Game"
+    />
+    <title>Flames Game</title>
+    <script>
+        const relation = {
+            'f': 'Friend',
+            'l': 'Loves',
+            'a': 'Affection',
+            'm': 'Marriage',
+            'e': 'Enemy',
+            's': 'Sister'
+        };
+        const findDifferce = (person1, person2) => {
+            let difference = 0;
+            let name1 = [...person1.toLowerCase()];
+            let name2 = [...person2.toLowerCase()];
+            name1.forEach(char => {
+                const index =  name2.findIndex(item => item === char);
+                if (index !== -1) {
+                    // found
+                    name2.splice(index, 1);
+                } else {
+                    // not found
+                    difference++;
+                }
+            });
+            difference += name2.length;
+            return difference;
+        };
+        const getFlamesChar = (difference) => {
+            let flames = ['f','l','a','m','e','s'];
+            while (flames.length > 1) {
+                let toRemove = difference % flames.length;
+                if (toRemove === 0) {
+                    toRemove = flames.length;
+                }
+                flames.splice(toRemove - 1, 1);
+            }
+            return flames[0];
+        }
+        const getReleationShip = () => {
+            const name1 = document.querySelector("#name1").value;
+            const name2 = document.querySelector("#name2").value;
+            const difference = findDifferce(name2, name1);
+            const flamesChar = getFlamesChar(difference);
+            document.querySelector("#relation").innerText = relation[flamesChar];
+        }
+    </script>
+  </head>
+  <body>
+    <div id="root">
+        <input type='text' id='name1' />
+        <input type='text' id='name2' />
+        <button onclick="getReleationShip()" value="Show Relation">
+            Show Relation
+        </button>
+        <h1 id="relation"></h1>
+    </div>
+  </body>
+</html>
